@@ -110,6 +110,7 @@ final class DeadCodeScanner
     }
 
     /**
+     * @param array<int,string> $ignore
      * @return array<int,string>
      */
     private function gatherPhpFiles(string $root, array $ignore): array

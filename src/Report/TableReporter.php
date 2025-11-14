@@ -14,6 +14,9 @@ final class TableReporter
     {
     }
 
+    /**
+     * @param array<int,string> $ignore
+     */
     public function render(AnalysisResult $result, string $root, array $ignore): void
     {
         if ($result->findings === []) {

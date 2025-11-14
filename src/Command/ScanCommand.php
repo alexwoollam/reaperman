@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ScanCommand extends Command
 {
-    protected static $defaultDescription = 'Scan a project for dead code';
+    protected static string $defaultDescription = 'Scan a project for dead code';
 
     public function __construct()
     {
@@ -38,10 +38,21 @@ final class ScanCommand extends Command
             $this->renderEasterEgg($output);
         }
 
-        $path = (string) $input->getOption('path');
-        $ignore = array_filter(array_map('trim', explode(',', (string) $input->getOption('ignore'))));
-        $format = (string) $input->getOption('format');
-        $exitNonZero = (bool) $input->getOption('exit-nonzero-on-findings');
+        $pathOpt = $input->getOption('path');
+        $cwd = getcwd();
+        $path = is_string($pathOpt)
+            ? $pathOpt
+            : ($cwd !== false ? $cwd : '.');
+
+        $ignoreOpt = $input->getOption('ignore');
+        $ignoreCsv = is_string($ignoreOpt) ? $ignoreOpt : 'vendor,node_modules,storage,cache';
+        $ignore = array_values(array_filter(array_map('trim', explode(',', $ignoreCsv)), static fn($v) => $v !== ''));
+
+        $formatOpt = $input->getOption('format');
+        $format = is_string($formatOpt) ? $formatOpt : 'table';
+
+        $exitOpt = $input->getOption('exit-nonzero-on-findings');
+        $exitNonZero = is_bool($exitOpt) ? $exitOpt : false;
 
         $scanner = new DeadCodeScanner();
         $result = $scanner->analyze($path, $ignore);
