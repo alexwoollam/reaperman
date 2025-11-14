@@ -1,7 +1,25 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-require __DIR__ . '/../vendor/autoload.php';
+// Try to locate Composer's autoloader in multiple common locations to support
+// local, project, and global Composer installs.
+$autoload = null;
+$candidates = [
+    __DIR__ . '/../vendor/autoload.php',           // package-local (dev)
+    __DIR__ . '/../../autoload.php',                // project vendor when bin is in vendor/bin symlink
+    dirname(__DIR__, 3) . '/autoload.php',          // global composer vendor
+];
+foreach ($candidates as $file) {
+    if (is_file($file)) {
+        $autoload = $file;
+        break;
+    }
+}
+if ($autoload === null) {
+    fwrite(STDERR, "Reaperman: unable to locate Composer autoload.\nTried:\n - " . implode("\n - ", $candidates) . "\n");
+    exit(1);
+}
+require $autoload;
 
 use Symfony\Component\Console\Application;
 use Reaperman\Command\ScanCommand;
@@ -10,4 +28,3 @@ $application = new Application('reaperman', '0.1.0');
 $application->add(new ScanCommand());
 $application->setDefaultCommand('reaperman:scan', true);
 $application->run();
-
