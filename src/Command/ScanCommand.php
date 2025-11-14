@@ -46,7 +46,7 @@ final class ScanCommand extends Command
 
         $ignoreOpt = $input->getOption('ignore');
         $ignoreCsv = is_string($ignoreOpt) ? $ignoreOpt : 'vendor,node_modules,storage,cache';
-        $ignore = array_values(array_filter(array_map('trim', explode(',', $ignoreCsv)), static fn($v) => $v !== ''));
+        $ignore = array_values(array_filter(array_map('trim', explode(',', $ignoreCsv)), static fn ($v) => $v !== ''));
 
         $formatOpt = $input->getOption('format');
         $format = is_string($formatOpt) ? $formatOpt : 'table';
