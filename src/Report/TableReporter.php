@@ -21,22 +21,21 @@ final class TableReporter
     {
         if ($result->findings === []) {
             $this->output->writeln(sprintf('<info>No dead code found. Scanned %d PHP files.</info>', count($result->files)));
-
-            if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE && $result->files !== []) {
-                $this->output->writeln('Scanned files:');
-                foreach ($result->files as $file) {
-                    $this->output->writeln(' - ' . $file);
-                }
+        } else {
+            $table = new Table($this->output);
+            $table->setHeaders(['File', 'Symbol', 'Type', 'Line']);
+            foreach ($result->findings as $f) {
+                $table->addRow([$f['file'], $f['symbol'], $f['type'], (string) $f['line']]);
             }
-            return;
+            $table->render();
+            $this->output->writeln(sprintf('<comment>Total findings: %d</comment>', $result->count()));
         }
 
-        $table = new Table($this->output);
-        $table->setHeaders(['File', 'Symbol', 'Type', 'Line']);
-        foreach ($result->findings as $f) {
-            $table->addRow([$f['file'], $f['symbol'], $f['type'], (string) $f['line']]);
+        if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE && $result->files !== []) {
+            $this->output->writeln('Scanned files:');
+            foreach ($result->files as $file) {
+                $this->output->writeln(' - ' . $file);
+            }
         }
-        $table->render();
-        $this->output->writeln(sprintf('<comment>Total findings: %d</comment>', $result->count()));
     }
 }
