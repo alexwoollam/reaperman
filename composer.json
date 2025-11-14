@@ -1,0 +1,54 @@
+{
+  "name": "reaperman/reaperman",
+  "description": "CLI to find dead code in PHP projects.",
+  "type": "library",
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require": {
+    "php": "^8.1",
+    "symfony/console": "^6.3 || ^7.0",
+    "nikic/php-parser": "^4.17"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.0",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "phpstan/phpstan": "^1.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "Reaperman\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Reaperman\\Tests\\": "tests/"
+    }
+  },
+  "bin": [
+    "bin/reaperman"
+  ],
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "test:coverage": "vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml --coverage-html build/coverage",
+    "lint": "vendor/bin/php-cs-fixer fix --dry-run --diff",
+    "fix": "vendor/bin/php-cs-fixer fix",
+    "stan": "vendor/bin/phpstan analyse src --level=max",
+    "check": [
+      "@lint",
+      "@stan",
+      "@test"
+    ]
+  },
+  "scripts-descriptions": {
+    "test": "Run the PHPUnit test suite.",
+    "test:coverage": "Run tests with code coverage reports (text, clover, HTML).",
+    "lint": "Run PHP-CS-Fixer in dry-run mode to check style.",
+    "fix": "Apply auto-fixes with PHP-CS-Fixer.",
+    "stan": "Run static analysis with PHPStan at max level.",
+    "check": "Run lint, static analysis, and tests."
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
