@@ -23,4 +23,12 @@
         </exclude>
     </source>
 
+    <coverage>
+        <report>
+            <text outputFile="-" showUncoveredFiles="false" />
+            <clover outputFile="build/logs/clover.xml" />
+            <html outputDirectory="build/coverage" />
+        </report>
+    </coverage>
 </phpunit>
+

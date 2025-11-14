@@ -14,7 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ScanCommand extends Command
 {
-    protected static string $defaultDescription = 'Scan a project for dead code';
+    /** @var string|null */
+    protected static $defaultDescription = 'Scan a project for dead code';
 
     public function __construct()
     {
@@ -23,7 +24,8 @@ final class ScanCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription(self::$defaultDescription);
+        $desc = self::$defaultDescription ?? 'Scan a project for dead code';
+        $this->setDescription($desc);
         $this
             ->addOption('path', null, InputOption::VALUE_REQUIRED, 'Root path to scan', getcwd())
             ->addOption('ignore', null, InputOption::VALUE_OPTIONAL, 'Comma-separated paths to ignore', 'vendor,node_modules,storage,cache')
