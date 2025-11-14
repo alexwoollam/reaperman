@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Alpha;
 
@@ -10,8 +12,11 @@ final class ClassA
         \Alpha\used_func();
     }
 
-    public function used(): void {}
+    public function used(): void
+    {
+    }
 
-    private function unusedPrivate(): void {}
+    private function unusedPrivate(): void
+    {
+    }
 }
-

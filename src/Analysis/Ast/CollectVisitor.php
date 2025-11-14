@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Reaperman\Analysis\Ast;
 
@@ -140,4 +142,3 @@ final class CollectVisitor extends NodeVisitorAbstract
         return '\\' . ltrim($name->toString(), '\\');
     }
 }
-

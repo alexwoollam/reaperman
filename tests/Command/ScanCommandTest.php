@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Reaperman\Tests\Command;
 
@@ -69,4 +71,3 @@ final class ScanCommandTest extends TestCase
         $this->assertStringContainsString('ClassA.php', $out);
     }
 }
-

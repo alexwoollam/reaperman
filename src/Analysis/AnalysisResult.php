@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Reaperman\Analysis;
 
@@ -23,4 +25,3 @@ final class AnalysisResult
         return count($this->findings);
     }
 }
-

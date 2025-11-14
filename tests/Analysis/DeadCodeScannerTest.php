@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Reaperman\Tests\Analysis;
 
@@ -23,7 +25,7 @@ final class DeadCodeScannerTest extends TestCase
         $fixture = __DIR__ . '/../Fixtures/Project1';
         $result = $scanner->analyze($fixture, []);
 
-        $types = array_unique(array_map(static fn($f) => $f['type'], $result->findings));
+        $types = array_unique(array_map(static fn ($f) => $f['type'], $result->findings));
         $this->assertContains('unused_private_method', $types);
         $this->assertContains('unused_function', $types);
     }
