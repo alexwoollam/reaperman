@@ -14,16 +14,21 @@ Reaperman is a Composer-installed CLI that scans PHP projects to find likely dea
 - Composer
 
 ## Installation
-- Global (adds `~/.composer/vendor/bin` to PATH):
+- Global (recommended):
   - `composer global require reaperman/reaperman`
+  - Ensure Composer's global bin is on PATH:
+    - Linux: add `~/.config/composer/vendor/bin` to PATH
+    - macOS: add `~/.composer/vendor/bin` to PATH
 - Per-project (dev):
   - `composer require --dev reaperman/reaperman`
   - Run via `./vendor/bin/reaperman`
 
 ## Quickstart
-- Table output: `./bin/reaperman --path=./src`
-- JSON output: `./bin/reaperman --path=. --format=json`
-- Fail CI on findings: `./bin/reaperman --path=. --exit-nonzero-on-findings`
+- Global, from a project root: `reaperman` (scans current directory by default)
+- Global, explicit path: `reaperman --path=. --format=table`
+- Per-project: `./vendor/bin/reaperman --path=. -v`
+- JSON output: add `--format=json`
+- Fail CI on findings: add `--exit-nonzero-on-findings`
 - Show scanned files: add `-v`
 
 ## Options
@@ -40,6 +45,21 @@ Reaperman is a Composer-installed CLI that scans PHP projects to find likely dea
 - Install deps: `composer install`
 - Run checks: `composer check` (lint + phpstan + tests)
 - Run CLI from source: `./bin/reaperman --path=./src -v`
+
+## Local Development (Path Repo)
+- Per-project:
+  - In your project `composer.json` add:
+    - `"repositories": [{"type": "path", "url": "/var/www/reaperman", "options": {"symlink": true}}]`
+    - `"require-dev": {"reaperman/reaperman": "dev-main"}` and ensure `"minimum-stability": "dev", "prefer-stable": true`.
+  - Run: `composer update reaperman/reaperman -W`
+  - Use: `./vendor/bin/reaperman --path=. --format=table`
+- Global:
+  - `composer global config repositories.reaperman path /var/www/reaperman`
+  - `composer global config repositories.reaperman options.symlink true`
+  - `composer global require reaperman/reaperman:dev-main`
+  - Use: `reaperman --path=/your/project`
+- Direct run (no Composer): `./bin/reaperman --path=/your/project`
+- Tip: If Composer needs a version for local testing, either init Git or set `"version": "0.1.x-dev"` temporarily.
 
 ## Testing
 - PHPUnit config: `phpunit.xml.dist`
